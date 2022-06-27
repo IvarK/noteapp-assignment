@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, toRefs, withDefaults } from "vue";
+import { toRefs, withDefaults } from "vue";
 
 interface Props {
   appearance?: "primary" | "secondary";
