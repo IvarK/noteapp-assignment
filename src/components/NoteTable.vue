@@ -4,6 +4,7 @@ import { computed } from "vue";
 import { useNoteStore } from "@/stores/notes";
 import type { Note } from "@/interfaces";
 import CommonButton from "./common/CommonButton.vue";
+import DeleteConfirm from "./DeleteConfirm.vue";
 
 const store = useNoteStore();
 
@@ -54,10 +55,19 @@ const sortNotes = (
       :rows="notes"
       :total="store.total"
       :is-hide-paging="true"
+      :is-slot-mode="true"
       @do-search="sortNotes"
-    />
+    >
+      <template v-slot:id="data">
+        <div class="id-cell">
+          <input type="checkbox" v-model="data.value.toRemove" />
+          <div>{{ data.value.id }}</div>
+        </div>
+      </template>
+    </TableLite>
     <div class="button-container">
       <CommonButton @click="store.openNoteModal()">Add</CommonButton>
+      <DeleteConfirm v-if="store.removable" />
     </div>
   </div>
 </template>
@@ -69,7 +79,15 @@ const sortNotes = (
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-direction: row-reverse;
   margin-top: 20px;
+}
+
+.id-cell {
+  display: flex;
+  & > input {
+    margin-right: 10px;
+  }
 }
 </style>

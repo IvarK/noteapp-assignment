@@ -15,6 +15,7 @@ export const useNoteStore = defineStore({
       state.notes.filter((note) => note.status === "Completed").length,
     notCompleted: (state) =>
       state.notes.filter((note) => note.status === "Not completed").length,
+    removable: (state) => state.notes.filter((note) => note.toRemove).length,
   },
   actions: {
     addNote(note: Note) {
@@ -36,6 +37,12 @@ export const useNoteStore = defineStore({
     },
     closeNoteModal() {
       this.modalOpen = false;
+    },
+    deleteRemovable() {
+      this.notes = this.notes.filter((note) => !note.toRemove);
+    },
+    unCheckAll() {
+      this.notes.forEach((note) => (note.toRemove = false));
     },
     initialize() {
       // Mocking an api call with Promise

@@ -3,4 +3,5 @@ export interface Note {
   title: string;
   content: string;
   status: "New" | "Completed" | "Not completed";
+  toRemove?: boolean;
 }

@@ -19,6 +19,7 @@ const { appearance } = toRefs(props);
 <style lang="scss" scoped>
 .button {
   width: 200px;
+  height: 35px;
   padding: 10px;
   border: none;
   cursor: pointer;
