@@ -1,9 +1,15 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
 
-const app = createApp(App)
+import "vue-universal-modal/dist/index.css";
 
-app.use(createPinia())
+import VueUniversalModal from "vue-universal-modal";
 
-app.mount('#app')
+const app = createApp(App);
+
+app.use(createPinia());
+
+app.use(VueUniversalModal, { teleportTarget: "#modals" });
+
+app.mount("#app");
