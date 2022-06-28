@@ -15,5 +15,6 @@ export default defineConfig({
   base: "/noteapp-assignment/",
   test: {
     globals: true,
+    environment: "happy-dom",
   },
 });

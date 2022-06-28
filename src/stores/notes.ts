@@ -25,10 +25,12 @@ export const useNoteStore = defineStore({
     sortBy(key: keyof Note, direction: "asc" | "desc") {
       this.notes.sort((a, b) => {
         // This works for both numbers and strings
+        const aValue = a[key] ?? 0;
+        const bValue = b[key] ?? 0;
         if (direction === "asc") {
-          return a[key] > b[key] ? 1 : -1;
+          return aValue > bValue ? 1 : -1;
         } else {
-          return a[key] < b[key] ? 1 : -1;
+          return aValue < bValue ? 1 : -1;
         }
       });
     },
