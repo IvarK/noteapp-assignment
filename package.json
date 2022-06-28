@@ -2,6 +2,7 @@
   "name": "noteapp-assignment",
   "version": "0.0.0",
   "scripts": {
+    "prepare": "husky install",
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 4173",
@@ -10,15 +11,6 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": [
-        "lint",
-        "test-once",
-        "type-check"
-      ]
-    }
   },
   "dependencies": {
     "pinia": "^2.0.14",
