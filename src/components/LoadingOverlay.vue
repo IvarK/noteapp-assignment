@@ -17,6 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 /* This next part is directly from this codepen, it just looked good https://codepen.io/ShortCode/pen/JjpgvKb*/

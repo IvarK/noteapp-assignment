@@ -10,9 +10,9 @@ const state = reactive({
   content: "",
 });
 
-const addNote = (event: Event) => {
+const addNote = async (event: Event) => {
   event.preventDefault();
-  store.addNote({ ...state, id: store.lastID + 1, status: "New" });
+  await store.addNote({ ...state, id: store.lastID + 1, status: "New" });
   store.closeNoteModal();
 
   // Reset the state, otherwise when you open it again, it has the previous input.

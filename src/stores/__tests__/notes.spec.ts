@@ -10,10 +10,15 @@ describe("Counter Store", () => {
     setActivePinia(createPinia());
   });
 
-  it("adds notes", () => {
+  it("adds notes", async () => {
     const store = useNoteStore();
     expect(store.notes.length).toBe(0);
-    store.addNote({ title: "test", content: "test", id: 1, status: "New" });
+    await store.addNote({
+      title: "test",
+      content: "test",
+      id: 1,
+      status: "New",
+    });
     expect(store.notes.length).toBe(1);
   });
 
@@ -76,15 +81,20 @@ describe("Counter Store", () => {
     expect(store.removable).toBe(1);
   });
 
-  it("sorts notes", () => {
+  it("sorts notes", async () => {
     const store = useNoteStore();
-    store.addNote({
+    await store.addNote({
       title: "bbbb",
       content: "aaaaa",
       id: 2,
       status: "Completed",
     });
-    store.addNote({ title: "aaaa", content: "bbbbb", id: 1, status: "New" });
+    await store.addNote({
+      title: "aaaa",
+      content: "bbbbb",
+      id: 1,
+      status: "New",
+    });
 
     expect(store.notes[0].id).toBe(2);
     store.sortBy("title", "asc");
@@ -101,7 +111,7 @@ describe("Counter Store", () => {
     expect(store.notes[0].id).toBe(2);
   });
 
-  it("removes notes", () => {
+  it("removes notes", async () => {
     const store = useNoteStore();
     store.notes = [
       {
@@ -132,12 +142,12 @@ describe("Counter Store", () => {
         status: "Not completed",
       },
     ];
-    store.deleteRemovable();
+    await store.deleteRemovable();
     expect(store.notes.length).toBe(1);
     expect(store.notes[0].id).toBe(4);
   });
 
-  it("unchecks all", () => {
+  it("unchecks all", async () => {
     const store = useNoteStore();
     store.notes = [
       {
@@ -169,7 +179,7 @@ describe("Counter Store", () => {
       },
     ];
     store.unCheckAll();
-    store.deleteRemovable();
+    await store.deleteRemovable();
     expect(store.notes.length).toBe(4);
     expect(store.removable).toBe(0);
   });

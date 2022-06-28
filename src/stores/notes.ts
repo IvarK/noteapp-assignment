@@ -1,4 +1,5 @@
 import type { Note } from "@/interfaces";
+import mockDatabase from "@/utils/mockDatabase";
 import { defineStore } from "pinia";
 
 export const useNoteStore = defineStore({
@@ -18,9 +19,14 @@ export const useNoteStore = defineStore({
     removable: (state) => state.notes.filter((note) => note.toRemove).length,
   },
   actions: {
-    addNote(note: Note) {
-      this.notes.push(note);
-      this.lastID = note.id;
+    async addNote(note: Note) {
+      this.loading = true;
+      const success = await mockDatabase.postNote(note);
+      if (success) {
+        this.notes.push(note);
+        this.lastID = note.id;
+      }
+      this.loading = false;
     },
     sortBy(key: keyof Note, direction: "asc" | "desc") {
       this.notes.sort((a, b) => {
@@ -40,41 +46,22 @@ export const useNoteStore = defineStore({
     closeNoteModal() {
       this.modalOpen = false;
     },
-    deleteRemovable() {
-      this.notes = this.notes.filter((note) => !note.toRemove);
+    async deleteRemovable() {
+      this.loading = true;
+      const success = await mockDatabase.deleteNotes(
+        this.notes.filter((note) => note.toRemove)
+      );
+      if (success) this.notes = this.notes.filter((note) => !note.toRemove);
+      this.loading = false;
     },
     unCheckAll() {
       this.notes.forEach((note) => (note.toRemove = false));
     },
-    initialize() {
-      // Mocking an api call with Promise
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          this.notes = [
-            {
-              id: 1,
-              title: "delectus aut autem",
-              content: "Lorem ipsum",
-              status: "New",
-            },
-            {
-              id: 2,
-              title: "quis ut nam facilis et officia qui",
-              content: "Lorem ipsum",
-              status: "Completed",
-            },
-            {
-              id: 3,
-              title: "fugiat veniam minus",
-              content: "Lorem ipsum",
-              status: "Not completed",
-            },
-          ];
-          this.loading = false;
-          this.lastID = 3;
-          resolve();
-        }, 2000);
-      });
+    async initialize() {
+      const notes = await mockDatabase.getNotes();
+      this.notes = notes;
+      this.lastID = 3;
+      this.loading = false;
     },
   },
 });
