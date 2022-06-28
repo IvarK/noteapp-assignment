@@ -1,5 +1,6 @@
 import type { Note } from "@/interfaces";
 
+// Returning a value after a delay with promise, to simulate database calls
 const returnWithDelay = <T>(returned: T, delay: number): Promise<T> => {
   return new Promise((resolve) => {
     setTimeout(() => {

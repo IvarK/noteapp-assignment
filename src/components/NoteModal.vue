@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useNoteStore } from "@/stores/notes";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import CommonButton from "./common/CommonButton.vue";
 
 const store = useNoteStore();
@@ -10,14 +10,20 @@ const state = reactive({
   content: "",
 });
 
+const sent = ref(false);
+
 const addNote = async (event: Event) => {
   event.preventDefault();
+  if (sent.value) return; // prevent from being sent twice
+
+  sent.value = true;
   await store.addNote({ ...state, id: store.lastID + 1, status: "New" });
   store.closeNoteModal();
 
   // Reset the state, otherwise when you open it again, it has the previous input.
   state.title = "";
   state.content = "";
+  sent.value = false;
 };
 
 const cancel = (event: MouseEvent) => {
